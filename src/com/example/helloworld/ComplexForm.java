@@ -1,6 +1,10 @@
 package com.example.helloworld;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
 
 import com.vaadin.data.Item;
 import com.vaadin.data.util.sqlcontainer.RowId;
@@ -10,12 +14,14 @@ import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.terminal.ThemeResource;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.Form;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.TabSheet;
+import com.vaadin.ui.TabSheet.Tab;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.themes.Reindeer;
 
@@ -107,8 +113,23 @@ public class ComplexForm extends Window {
 						((Window) getWindow().getParent()).removeWindow(getWindow());
 					}
 				} catch (Exception e) {
-					tabs.getTab(0).setIcon(errorIcon);
-					tabs.getTab(0).setStyleName("icon-size");
+					Iterator<Component> i = tabs.getComponentIterator();
+					while (i.hasNext()) {
+					    Component c = (Component) i.next();
+					    Tab tab = tabs.getTab(c);
+					    if (tab.getIcon() != null) {
+					    	tab.setIcon(null);
+					    }
+					}
+					List<Field> fields = getAllFields(form);
+					for (Field f : fields) {
+						if (f.getRequiredError().equals(e.getMessage())) {
+							System.out.println(f.getParent());	
+							FormLayout invalidTab = (FormLayout)f.getParent();
+							tabs.getTab(invalidTab).setIcon(errorIcon);
+							tabs.setSelectedTab(invalidTab);
+						}
+					}
 					//getWindow().showNotification("Save error", e.getMessage(), Notification.TYPE_ERROR_MESSAGE);
 				}
 			}
@@ -154,5 +175,14 @@ public class ComplexForm extends Window {
         this.setCaption("Customer edit");
         this.setClosable(false);
         this.setModal(true);
+	}
+	
+	public List<Field> getAllFields(Form form) {
+		  Collection<?> propertyIds = form.getItemPropertyIds();
+		  List<Field> fields = new ArrayList<Field>(propertyIds.size());
+		  for (Object itemPropertyId : propertyIds) {
+		    fields.add(form.getField(itemPropertyId));
+		  }
+		  return fields;
 	}
 }
