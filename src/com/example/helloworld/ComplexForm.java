@@ -22,39 +22,37 @@ public class ComplexForm extends Window {
 	public Form form = new Form();
 	public Button btnSave = new Button();
 	public Button btnCancel = new Button();
-	public KontrahFieldFactory kontrahFieldFactory;
+	public KontrahFieldFactory kontrahFieldFactory = new KontrahFieldFactory();
+	private Window self = this;
 	
 	public ComplexForm() {		
-		final Window self = this;
-		Panel p = new Panel();
 		AppData.getContextHelp().addHelpForComponent(this, "Shortcuts:</br>close: <b>ESC</b></br>save: <b>ENTER</b>");
+		Panel p = new Panel();
+		
         final TabSheet tabs = new TabSheet();
         tabs.setSizeFull();
         tabs.setStyleName(Reindeer.TABSHEET_SMALL);        
         final FormLayout personalInfo = new FormLayout();
-        tabs.addTab( personalInfo, "Personal data" );
+        tabs.addTab(personalInfo, "Personal data");
         final FormLayout profile = new FormLayout();
-        tabs.addTab( profile, "Company" );
+        tabs.addTab(profile, "Company");
         final FormLayout other = new FormLayout();
         tabs.addTab(other, "Other");
         
-        kontrahFieldFactory = new KontrahFieldFactory();
-        
-        addListener(new FieldEvents.FocusListener() {
+        this.addListener(new FieldEvents.FocusListener() {
 
 			@Override
 			public void focus(FocusEvent event) {
 				AppData.getContextHelp().showHelpFor(self);
 				form.getField("IMIE").focus();
 			}
-        	
         });
                 
         form = new Form() {
             @Override
             protected void attachField(Object propertyId, Field field) {
                 if ("IMIE".equals(propertyId) || "NAZWISKO".equals(propertyId)) {
-                    personalInfo.addComponent( field );
+                    personalInfo.addComponent(field);
                 } else 
                 if ("ID_FIRMA".equals(propertyId)) {
                 	profile.addComponent(field);
@@ -76,13 +74,6 @@ public class ComplexForm extends Window {
         		}
         	}
         };
-                
-        form.setWriteThrough(false);
-        form.setInvalidCommitted(false);
-        form.setFormFieldFactory(kontrahFieldFactory);
-
-        p.setContent(tabs);
-        this.addComponent(p);
         
         btnSave.setCaption("Save");
         btnSave.setClickShortcut(KeyCode.ENTER, null);
@@ -90,47 +81,33 @@ public class ComplexForm extends Window {
         btnSave.addListener(new Button.ClickListener() {
 			
 			@Override
-			public void buttonClick(ClickEvent event) {	
+			public void buttonClick(ClickEvent event) {				
 				try {
-					form.commit();
+					Field fieldWiek = form.getField("WIEK");
+					Object wiekValue = fieldWiek.getValue();
+					Field fieldImie = form.getField("IMIE");
+					Object imieValue = fieldImie.getValue();
 					
-					try {
-						AppData.getDataSource().getKontrahContainer().commit();
-					} catch (UnsupportedOperationException e) {
-						e.printStackTrace();
-					} catch (SQLException e) {
-						e.printStackTrace();
+					if ((imieValue == null || imieValue.equals("")) && (wiekValue == null || wiekValue.equals(""))) {
+						 getWindow().showNotification(
+	                             (String) "BLAD",
+	                             (String) "Imie and Wiek can not be empty at the same time",
+	                             Notification.TYPE_ERROR_MESSAGE);
+					} else {
+						form.commit();
+						try {
+							AppData.getDataSource().getKontrahContainer().commit();
+						} catch (UnsupportedOperationException e) {
+							e.printStackTrace();
+						} catch (SQLException e) {
+							e.printStackTrace();
+						}
+						((Window) getWindow().getParent()).removeWindow(getWindow());
 					}
-					
-					((Window) getWindow().getParent()).removeWindow(getWindow());
 				} catch (Exception e) {
+					tabs.setIcon(\)
+					getWindow().showNotification("Save error", e.getMessage(), Notification.TYPE_ERROR_MESSAGE);
 				}
-				
-//				try {
-//					Field fieldWiek = form.getField("WIEK");
-//					Object wiekValue = fieldWiek.getValue();
-//					Field fieldImie = form.getField("IMIE");
-//					Object imieValue = fieldImie.getValue();
-//					
-//					if ((imieValue == null || imieValue.equals("")) && (wiekValue == null || wiekValue.equals(""))) {
-//						 getWindow().showNotification(
-//	                             (String) "BLAD",
-//	                             (String) "Imie and Wiek can not be empty at the same time",
-//	                             Notification.TYPE_ERROR_MESSAGE);
-//					} else {
-//						form.commit();
-//						try {
-//							AppData.getDataSource().getKontrahContainer().commit();
-//						} catch (UnsupportedOperationException e) {
-//							e.printStackTrace();
-//						} catch (SQLException e) {
-//							e.printStackTrace();
-//						}
-//						((Window) getWindow().getParent()).removeWindow(getWindow());
-//					}
-//				} catch (Exception e) {
-//					getWindow().showNotification("Save error", e.getMessage(), Notification.TYPE_ERROR_MESSAGE);
-//				}
 			}
 		});
         
@@ -152,6 +129,15 @@ public class ComplexForm extends Window {
 				((Window) getWindow().getParent()).removeWindow(getWindow());
 			}
 		});
+		
+        form.setWriteThrough(false);
+        form.setInvalidCommitted(false);
+        form.setFormFieldFactory(kontrahFieldFactory);
+
+        p.getContent().setSizeFull();
+        p.setContent(tabs);
+        this.addComponent(p);
+        this.addComponent(form);
 		
 		HorizontalLayout footer = new HorizontalLayout();
 		footer.setSpacing(true);
