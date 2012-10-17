@@ -12,6 +12,8 @@ public class HelloworldApplication extends Application {
 	
 	@Override
 	public void init() {		
+		setTheme("helloworldtheme");
+		
         setMainWindow(mainWindow);
         mainWindow.getContent().setSizeFull();
         
@@ -46,7 +48,5 @@ public class HelloworldApplication extends Application {
         
         mainWindow.addComponent(AppData.getContextHelp());
         AppData.getContextHelp().setFollowFocus(true);
-        
-		setTheme("helloworldtheme");
 	}
 }

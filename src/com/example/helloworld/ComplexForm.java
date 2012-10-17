@@ -7,6 +7,7 @@ import com.vaadin.data.util.sqlcontainer.RowId;
 import com.vaadin.event.FieldEvents;
 import com.vaadin.event.FieldEvents.FocusEvent;
 import com.vaadin.event.ShortcutAction.KeyCode;
+import com.vaadin.terminal.ThemeResource;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Field;
@@ -24,6 +25,7 @@ public class ComplexForm extends Window {
 	public Button btnCancel = new Button();
 	public KontrahFieldFactory kontrahFieldFactory = new KontrahFieldFactory();
 	private Window self = this;
+	private static final ThemeResource errorIcon = new ThemeResource("icons/error.png");
 	
 	public ComplexForm() {		
 		AppData.getContextHelp().addHelpForComponent(this, "Shortcuts:</br>close: <b>ESC</b></br>save: <b>ENTER</b>");
@@ -105,7 +107,9 @@ public class ComplexForm extends Window {
 						((Window) getWindow().getParent()).removeWindow(getWindow());
 					}
 				} catch (Exception e) {
-					getWindow().showNotification("Save error", e.getMessage(), Notification.TYPE_ERROR_MESSAGE);
+					tabs.getTab(0).setIcon(errorIcon);
+					tabs.getTab(0).setStyleName("icon-size");
+					//getWindow().showNotification("Save error", e.getMessage(), Notification.TYPE_ERROR_MESSAGE);
 				}
 			}
 		});
