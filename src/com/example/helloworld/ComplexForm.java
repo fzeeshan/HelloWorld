@@ -105,7 +105,6 @@ public class ComplexForm extends Window {
 						((Window) getWindow().getParent()).removeWindow(getWindow());
 					}
 				} catch (Exception e) {
-					tabs.setIcon(\)
 					getWindow().showNotification("Save error", e.getMessage(), Notification.TYPE_ERROR_MESSAGE);
 				}
 			}
