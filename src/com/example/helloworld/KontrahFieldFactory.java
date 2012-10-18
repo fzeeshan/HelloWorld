@@ -50,7 +50,7 @@ public class KontrahFieldFactory extends DefaultFieldFactory implements FormFiel
 		if ("NAZWISKO".equals(pid)) {
 			field.setCaption("Nazwisko");
 			field.setRequired(true);
-			field.setRequiredError("Nazwisko is required");
+			field.setRequiredError("Field is required");
 			field.addValidator(new StringLengthValidator("Nazwisko must have at least 3 characters", 3, 100, false));
 			return field;
 		}
@@ -61,7 +61,7 @@ public class KontrahFieldFactory extends DefaultFieldFactory implements FormFiel
 		if ("PESEL".equals(pid)) {
 			field.setCaption("PESEL");
 			field.setRequired(true);
-			field.setRequiredError("PESEL is required");
+			field.setRequiredError("Field is required");
 			return field;
 		}
 		

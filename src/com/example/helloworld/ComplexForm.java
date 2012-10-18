@@ -113,6 +113,7 @@ public class ComplexForm extends Window {
 						((Window) getWindow().getParent()).removeWindow(getWindow());
 					}
 				} catch (Exception e) {
+					// Remove icon from all tabs
 					Iterator<Component> i = tabs.getComponentIterator();
 					while (i.hasNext()) {
 					    Component c = (Component) i.next();
@@ -121,13 +122,15 @@ public class ComplexForm extends Window {
 					    	tab.setIcon(null);
 					    }
 					}
+					// Get tab where is invalid field set error icon for that tab and maka it selected
 					List<Field> fields = getAllFields(form);
 					for (Field f : fields) {
-						if (f.getRequiredError().equals(e.getMessage())) {
+						if (f.getRequiredError().equals(e.getMessage()) && !f.isValid()) {
 							System.out.println(f.getParent());	
 							FormLayout invalidTab = (FormLayout)f.getParent();
 							tabs.getTab(invalidTab).setIcon(errorIcon);
 							tabs.setSelectedTab(invalidTab);
+							break;
 						}
 					}
 					//getWindow().showNotification("Save error", e.getMessage(), Notification.TYPE_ERROR_MESSAGE);

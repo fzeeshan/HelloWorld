@@ -7,6 +7,9 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
+import enterpriseapp.example.ui.Constants;
+import enterpriseapp.example.ui.LoginWindow;
+
 public class HelloworldApplication extends Application {
 	public final Window mainWindow = new Window("Kontrah Vaadin");
 	
@@ -14,6 +17,26 @@ public class HelloworldApplication extends Application {
 	public void init() {		
 		setTheme("helloworldtheme");
 		
+		// show content according to the state of getUser()
+		if(getUser() == null) {
+			showPublicContent();
+		} else {
+			showPrivateContent();
+		}
+	}
+	
+	private void showPublicContent() {
+		removeWindow(getMainWindow());
+		
+		// we are gonna create an empty window and add a new LoginWindow to it
+		LoginWindow emptyMainWindow = new LoginWindow();
+		Window mainWindow = new Window(Constants.uiAppName);
+		
+		mainWindow.addWindow(emptyMainWindow);
+		setMainWindow(mainWindow);
+	}
+	
+	private void showPrivateContent() {
         setMainWindow(mainWindow);
         mainWindow.getContent().setSizeFull();
         
