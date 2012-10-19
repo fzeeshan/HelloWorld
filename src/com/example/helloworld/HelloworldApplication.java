@@ -7,15 +7,23 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
-import enterpriseapp.example.ui.Constants;
-import enterpriseapp.example.ui.LoginWindow;
-
 public class HelloworldApplication extends Application {
-	public final Window mainWindow = new Window("Kontrah Vaadin");
+	private AppData sessionData;	
 	
 	@Override
-	public void init() {		
-		setTheme("helloworldtheme");
+	public void init() {
+		if (sessionData == null) {
+			//Create application data instance
+			sessionData = new AppData(this);
+		    // Register it as a listener in the application context
+		    getContext().addTransactionListener(sessionData);
+		}
+		
+		if (AppData.getFirstInit()) {
+			AppData.setFirstInit(false);
+			
+			setTheme("helloworldtheme");
+		}
 		
 		// show content according to the state of getUser()
 		if(getUser() == null) {
@@ -29,21 +37,18 @@ public class HelloworldApplication extends Application {
 		removeWindow(getMainWindow());
 		
 		// we are gonna create an empty window and add a new LoginWindow to it
-		LoginWindow emptyMainWindow = new LoginWindow();
-		Window mainWindow = new Window(Constants.uiAppName);
-		
+		Window mainWindow = new Window("Login to Kontrah Vaadin");
+		LoginWindow emptyMainWindow = new LoginWindow();		
 		mainWindow.addWindow(emptyMainWindow);
 		setMainWindow(mainWindow);
 	}
 	
 	private void showPrivateContent() {
+		removeWindow(getMainWindow());
+		
+		Window mainWindow = new Window("Kontrah Vaadin");
         setMainWindow(mainWindow);
         mainWindow.getContent().setSizeFull();
-        
-        // Create application data instance
-        AppData sessionData = new AppData(this);
-        // Register it as a listener in the application context
-        getContext().addTransactionListener(sessionData);
         
         VerticalLayout mainLayout = new VerticalLayout();
         mainLayout.setSizeFull();

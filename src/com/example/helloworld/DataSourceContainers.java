@@ -7,6 +7,7 @@ import java.sql.Statement;
 import com.vaadin.data.util.sqlcontainer.SQLContainer;
 import com.vaadin.data.util.sqlcontainer.connection.JDBCConnectionPool;
 import com.vaadin.data.util.sqlcontainer.connection.SimpleJDBCConnectionPool;
+import com.vaadin.data.util.sqlcontainer.query.FreeformQuery;
 import com.vaadin.data.util.sqlcontainer.query.TableQuery;
 
 
@@ -160,6 +161,17 @@ public class DataSourceContainers {
 	
 	public SQLContainer getUserContainer() {
 		return userContainer;
+	}
+	
+	public SQLContainer getFreeFormQueryContainer(String sql) {
+		FreeformQuery query = new FreeformQuery(sql, connectionPool);
+		SQLContainer freeFormQuerySQLContainer;
+		try {
+			freeFormQuerySQLContainer = new SQLContainer(query);
+			return freeFormQuerySQLContainer;
+		} catch (SQLException e) {
+			return null;
+		}
 	}
 	
     /**
