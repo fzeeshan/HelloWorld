@@ -122,7 +122,7 @@ public class ComplexForm extends Window {
 					    	tab.setIcon(null);
 					    }
 					}
-					// Get tab where is invalid field set error icon for that tab and maka it selected
+					// Get tab where is invalid field set error icon for that tab and make it selected
 					List<Field> fields = getAllFields(form);
 					for (Field f : fields) {
 						if (f.getRequiredError().equals(e.getMessage()) && !f.isValid()) {
