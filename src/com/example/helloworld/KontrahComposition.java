@@ -137,6 +137,7 @@ public class KontrahComposition extends CustomComponent {
 			public void windowClose(CloseEvent e) {
 				AppData.getContextHelp().hideHelp();
 				KontrahTable.focus();
+				complexForm.removeIconsTabs();
 			}
 		});
 				

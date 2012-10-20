@@ -30,6 +30,7 @@ public class ComplexForm extends Window {
 	public Button btnSave = new Button();
 	public Button btnCancel = new Button();
 	public KontrahFieldFactory kontrahFieldFactory = new KontrahFieldFactory();
+	public TabSheet tabs = new TabSheet();
 	private Window self = this;
 	private static final ThemeResource errorIcon = new ThemeResource("icons/error.png");
 	
@@ -37,7 +38,6 @@ public class ComplexForm extends Window {
 		AppData.getContextHelp().addHelpForComponent(this, "Shortcuts:</br>close: <b>ESC</b></br>save: <b>ENTER</b>");
 		Panel p = new Panel();
 		
-        final TabSheet tabs = new TabSheet();
         tabs.setSizeFull();
         tabs.setStyleName(Reindeer.TABSHEET_SMALL);        
         final FormLayout personalInfo = new FormLayout();
@@ -114,19 +114,24 @@ public class ComplexForm extends Window {
 					}
 				} catch (Exception e) {
 					// Remove icon from all tabs
-					Iterator<Component> i = tabs.getComponentIterator();
-					while (i.hasNext()) {
-					    Component c = (Component) i.next();
-					    Tab tab = tabs.getTab(c);
-					    if (tab.getIcon() != null) {
-					    	tab.setIcon(null);
-					    }
-					}
+					removeIconsTabs();
 					// Get tab where is invalid field set error icon for that tab and make it selected
 					List<Field> fields = getAllFields(form);
 					for (Field f : fields) {
-						if (f.getRequiredError().equals(e.getMessage()) && !f.isValid()) {
-							System.out.println(f.getParent());	
+						
+						boolean isInvalid = false;
+						if (f.getValidators() != null) {
+							Iterator<com.vaadin.data.Validator> i = f.getValidators().iterator();
+							while (i.hasNext()) {
+								com.vaadin.data.validator.AbstractValidator v = (com.vaadin.data.validator.AbstractValidator)i.next();
+								if (v.getErrorMessage().equals(e.getMessage())) {
+									isInvalid = true;
+									break;
+								}
+							}
+						}
+						
+						if ((isInvalid || f.getRequiredError().equals(e.getMessage())) && !f.isValid()) {
 							FormLayout invalidTab = (FormLayout)f.getParent();
 							tabs.getTab(invalidTab).setIcon(errorIcon);
 							tabs.setSelectedTab(invalidTab);
@@ -187,5 +192,16 @@ public class ComplexForm extends Window {
 		    fields.add(form.getField(itemPropertyId));
 		  }
 		  return fields;
+	}
+	
+	public void removeIconsTabs() {
+		Iterator<Component> i = tabs.getComponentIterator();
+		while (i.hasNext()) {
+		    Component c = (Component) i.next();
+		    Tab tab = tabs.getTab(c);
+		    if (tab.getIcon() != null) {
+		    	tab.setIcon(null);
+		    }
+		}
 	}
 }
