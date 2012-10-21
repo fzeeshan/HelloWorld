@@ -135,6 +135,7 @@ public class ComplexForm extends Window {
 							FormLayout invalidTab = (FormLayout)f.getParent();
 							tabs.getTab(invalidTab).setIcon(errorIcon);
 							tabs.setSelectedTab(invalidTab);
+							f.focus();
 							break;
 						}
 					}

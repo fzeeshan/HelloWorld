@@ -138,6 +138,7 @@ public class KontrahComposition extends CustomComponent {
 				AppData.getContextHelp().hideHelp();
 				KontrahTable.focus();
 				complexForm.removeIconsTabs();
+				complexForm.tabs.setSelectedTab(0);
 			}
 		});
 				
