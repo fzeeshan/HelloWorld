@@ -56,9 +56,9 @@ public class HelloworldApplication extends Application {
         mainLayout.setMargin(false);
         
         GridLayout topLayout = new GridLayout(3, 1);
-        topLayout.setHeight("50px");
+        topLayout.setHeight("44px");
         topLayout.setWidth("100%");
-        topLayout.addStyleName("blueGradient");
+        topLayout.addStyleName("topBg");
         
         Label appTitle = new Label("<span class='appTitle'><b>K</b>ontrah <b>V</b>aadin</span>");
         appTitle.setContentMode(Label.CONTENT_XHTML);

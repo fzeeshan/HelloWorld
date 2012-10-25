@@ -9,7 +9,8 @@
 	</context-param>
 	<servlet>
 		<servlet-name>Helloworld Application</servlet-name>
-		<servlet-class>com.vaadin.terminal.gwt.server.ApplicationServlet</servlet-class>
+		<!--<servlet-class>com.vaadin.terminal.gwt.server.ApplicationServlet</servlet-class>-->
+		<servlet-class>com.example.helloworld.TestServlet</servlet-class>
 		<init-param>
 			<description>
 			Vaadin application class to start</description>

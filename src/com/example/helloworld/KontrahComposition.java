@@ -32,6 +32,7 @@ public class KontrahComposition extends CustomComponent {
 	public final ComplexForm complexForm = new ComplexForm();
 	
 	public KontrahComposition() {
+		setStyleName("mainBg");
 		setSizeFull();
 		
 		kontrahContainer.setSizeFull();

@@ -139,7 +139,6 @@ public class ComplexForm extends Window {
 							break;
 						}
 					}
-					//getWindow().showNotification("Save error", e.getMessage(), Notification.TYPE_ERROR_MESSAGE);
 				}
 			}
 		});
