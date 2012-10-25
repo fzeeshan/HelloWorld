@@ -37,7 +37,7 @@ public class HelloworldApplication extends Application {
 		removeWindow(getMainWindow());
 		
 		// we are gonna create an empty window and add a new LoginWindow to it
-		Window mainWindow = new Window("Login to Kontrah Vaadin");
+		Window mainWindow = new Window("Kontrah Vaadin");
 		LoginWindow emptyMainWindow = new LoginWindow();		
 		mainWindow.addWindow(emptyMainWindow);
 		setMainWindow(mainWindow);
