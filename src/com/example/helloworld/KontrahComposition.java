@@ -82,7 +82,6 @@ public class KontrahComposition extends CustomComponent {
 				}
 				return null;
 			}
-			
 		});
 		
 		//KontrahTable.setFilterFieldVisible("ID_FIRMA", false);
