@@ -56,7 +56,7 @@ public class KontrahComposition extends CustomComponent {
 	}
 
 	public void setupKontrahTable() {
-		AppData.getContextHelp().addHelpForComponent(KontrahTable, "Shortcuts:</br>Add: <b>INS</b> Remove: <b>DELETE</b> Edit: <b>CTRL+ENTER</b>");
+		//AppData.getContextHelp().addHelpForComponent(KontrahTable, "Shortcuts:</br>Add: <b>INS</b> Remove: <b>DELETE</b> Edit: <b>CTRL+ENTER</b>");
 		
 		KontrahTable.setSizeFull();
 		KontrahTable.setFilterGenerator(new KontrahFilterGenerator());
