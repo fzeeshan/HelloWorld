@@ -3,9 +3,8 @@ package com.example.helloworld;
 import java.sql.SQLException;
 
 import org.tepi.filtertable.FilterTable;
+
 import com.vaadin.data.Item;
-import com.vaadin.data.Property;
-import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.event.ShortcutAction.ModifierKey;
 import com.vaadin.event.ShortcutListener;
@@ -85,20 +84,6 @@ public class KontrahComposition extends CustomComponent {
 		});
 		
 		//KontrahTable.setFilterFieldVisible("ID_FIRMA", false);
-
-		KontrahTable.addListener(new Property.ValueChangeListener() {
-			
-			@Override
-			public void valueChange(ValueChangeEvent event) {
-				try {
-					AppData.getDataSource().getKontrahContainer().rollback();
-				} catch (UnsupportedOperationException e) {
-					e.printStackTrace();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-		});
 		
 		KontrahTable.addShortcutListener(new ShortcutListener("Edit kontrah", KeyCode.ENTER, new int[] {ModifierKey.CTRL}) {
 			
@@ -146,15 +131,7 @@ public class KontrahComposition extends CustomComponent {
 			@Override
 			public void buttonClick(ClickEvent event) {
 				Object id = KontrahTable.getValue();
-				if (id != null) {					
-					try {
-						AppData.getDataSource().getKontrahContainer().rollback();
-					} catch (UnsupportedOperationException e) {
-						e.printStackTrace();
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
-					
+				if (id != null) {										
 					Item selectedKontrah = AppData.getDataSource().getKontrahContainer().getItem(id);
 					complexForm.form.setItemDataSource(selectedKontrah);
 					
@@ -191,12 +168,7 @@ public class KontrahComposition extends CustomComponent {
 		btnAdd.addListener(new Button.ClickListener() {
 			
 			@Override
-			public void buttonClick(ClickEvent event) {				
-				try {
-					AppData.getDataSource().getKontrahContainer().commit();
-				} catch (SQLException ignored) {
-				}
-				
+			public void buttonClick(ClickEvent event) {							
 				Object tempItemId = AppData.getDataSource().getKontrahContainer().addItem();
 				complexForm.form.setItemDataSource(AppData.getDataSource().getKontrahContainer().getItem(tempItemId));
 				AppData.getAppWindow().addWindow(complexForm);
@@ -209,15 +181,7 @@ public class KontrahComposition extends CustomComponent {
 			@Override
 			public void buttonClick(ClickEvent event) {
 				Object id = KontrahTable.getValue();
-				if (id != null) {					
-					try {
-						AppData.getDataSource().getKontrahContainer().rollback();
-					} catch (UnsupportedOperationException e) {
-						e.printStackTrace();
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
-					
+				if (id != null) {								
 					Item selectedKontrah = AppData.getDataSource().getKontrahContainer().getItem(id);
 					
 					NormalForm normalForm = new NormalForm();

@@ -115,19 +115,21 @@ public class DataSourceContainers {
 			}
 			
 			// Fill kontrahContainer
-			final String imie[] = { "£ukasz", "Tomasz", "Adam" };
+			final String imie[] = { "Lukasz", "Tomasz", "Adam" };
 			final String nazwisko[] = { "Kowalski", "Nowak", "Polaczek" };
 			final int wiek[] = { 25, 30, 53 }; 
 			final String pesel[] = { "87022102035", "82060106012", "67022412456" };
 			final int firmaId[] = { 0, 1, 2 };
 			
-			for (int i = 0; i < imie.length; i++) {
-				Object id = kontrahContainer.addItem();
-				kontrahContainer.getContainerProperty(id, "IMIE").setValue(imie[i]);
-				kontrahContainer.getContainerProperty(id, "NAZWISKO").setValue(nazwisko[i]);
-				kontrahContainer.getContainerProperty(id, "WIEK").setValue(wiek[i]);
-				kontrahContainer.getContainerProperty(id, "PESEL").setValue(pesel[i]);
-				kontrahContainer.getContainerProperty(id, "ID_FIRMA").setValue(firmaId[i]);
+			for (int j = 0; j < 30; j ++) {
+				for (int i = 0; i < imie.length; i++) {
+					Object id = kontrahContainer.addItem();
+					kontrahContainer.getContainerProperty(id, "IMIE").setValue(imie[i]);
+					kontrahContainer.getContainerProperty(id, "NAZWISKO").setValue(nazwisko[i]);
+					kontrahContainer.getContainerProperty(id, "WIEK").setValue(wiek[i]);
+					kontrahContainer.getContainerProperty(id, "PESEL").setValue(pesel[i]);
+					kontrahContainer.getContainerProperty(id, "ID_FIRMA").setValue(firmaId[i]);
+				}
 			}
 			
 			// Fill userContainer
